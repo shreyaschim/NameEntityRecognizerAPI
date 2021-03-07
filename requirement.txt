@@ -1,0 +1,6 @@
+Flask==1.1.2
+wikipedia==1.4.0
+PyJWT==2.0.1
+spacy==3.0.3
+streamlit==0.77.0
+pandas==1.2.3
