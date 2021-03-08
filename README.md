@@ -3,7 +3,7 @@
 Name entity recognizer API in Flask and streamlin
 
 ## Requirements :- 
-Python3, Flask, Streamlit
+Python3, Flask, JWT, Streamlit etc.
 
 ## Steps to run the app :- 
 1) Install all python packages from "requirements.txt" file using pip by cmd "pip3 install -r requirement.txt".
