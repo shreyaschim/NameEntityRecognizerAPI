@@ -9,14 +9,14 @@ Python3, Flask, JWT, Streamlit etc.
 1) Install all python packages from "requirements.txt" file using pip by cmd "pip3 install -r requirement.txt".
 2) Run app.py simply using cmd "python3 application.py" it will launch flask based API on port http://127.0.0.1:5000/ for name entity recognizer.
 3) Token based authentication technique is applied to secure API endpoints.
-4) Make sure app.py is still runnung on port http://127.0.0.1:5000/.
+4) Make sure application.py is still runnung on port http://127.0.0.1:5000/.
 5) Now next step is to run streamlit.py using cmd "streamlit run streamlit.py" it will host port http://localhost:8502/.
 6) Now simply typ your search topic inside the input box and hit enter.  
 8) It will display annotated text in Streamlit App and also display the occurrence of each label in a text in Bar graph form.
 9) Sharing screenshots for clear understanding!
 
 
-# App.py (NER API using flask) 
+# application.py (NER API using flask) 
 
 #### Import necessary libraries 
 ```python
@@ -30,11 +30,11 @@ from  functools import wraps
 ```
 #### Creating a Flask app 
 ```python
-app = Flask(__name__) 
+application = Flask(__name__) 
 ```
 #### Secret key decleration for Token Based Authentication  
 ```python
-app.config['SECRET_KEY'] = 'thisissecretkey' 
+application.config['SECRET_KEY'] = 'thisissecretkey' 
 ```
 
 #### Convert HTML so it can be rendered :
@@ -54,7 +54,7 @@ def token_required(f):
         if not token:
             return jsonify({'message':'Token is missing!'}), 403
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=["HS256"])
+            data = jwt.decode(token, application.config['SECRET_KEY'],algorithms=["HS256"])
         except:
             return jsonify({'message':'Token is invalid!','token':data}), 403
         return f(*args, **kwargs)
@@ -62,7 +62,7 @@ def token_required(f):
 ```
 #### Home Route
 ```python    
-@app.route('/', methods = ['GET', 'POST']) 
+@application.route('/', methods = ['GET', 'POST']) 
 def home(): 
     if(request.method == 'GET'): 
         data = "Welcome To NER API By: Shreyas Chim"
@@ -70,18 +70,18 @@ def home():
 ```  
 #### Login function, Username:"username", Password:"password" for now. 
 ```python
-@app.route('/login') 
+@application.route('/login') 
 def login():
     auth = request.authorization 
     if auth and auth.username == 'username' and auth.password == 'password':
-        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, application.config['SECRET_KEY'])
         return  jsonify({'token' : token})
     return make_response('Could not verify!', 401, {'www-Authenticate': 'Basic real = "Login Required"'})
 ```    
 
 #### Name Entity Recognizer Model 
 ```python
-@app.route('/ner/<string:search>', methods = ['GET']) 
+@application.route('/ner/<string:search>', methods = ['GET']) 
 @token_required
 def ner(search): 
 
@@ -112,7 +112,7 @@ def ner(search):
 ```python
 if __name__ == '__main__': 
   
-    app.run(debug = True) 
+    application.run(debug = True) 
 ``` 
 
 ## Entire Code (app.py)
@@ -127,8 +127,8 @@ import spacy
 import pandas as pd
 from  functools import wraps
   
-app = Flask(__name__) 
-app.config['SECRET_KEY'] = 'thisissecretkey' 
+application = Flask(__name__) 
+application.config['SECRET_KEY'] = 'thisissecretkey' 
 
 def get_html(html: str):
     """Convert HTML so it can be rendered."""
@@ -144,27 +144,27 @@ def token_required(f):
         if not token:
             return jsonify({'message':'Token is missing!'}), 403
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=["HS256"])
+            data = jwt.decode(token, application.config['SECRET_KEY'],algorithms=["HS256"])
         except:
             return jsonify({'message':'Token is invalid!','token':data}), 403
         return f(*args, **kwargs)
     return decorated
  
-@app.route('/', methods = ['GET', 'POST']) 
+@application.route('/', methods = ['GET', 'POST']) 
 def home(): 
     if(request.method == 'GET'): 
         data = "Welcome To NER API By: Shreyas Chim"
         return jsonify({'data': data}) 
   
-@app.route('/login') 
+@application.route('/login') 
 def login():
     auth = request.authorization 
     if auth and auth.username == 'username' and auth.password == 'password':
-        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, application.config['SECRET_KEY'])
         return  jsonify({'token' : token})
     return make_response('Could not verify!', 401, {'www-Authenticate': 'Basic real = "Login Required"'})
 
-@app.route('/ner/<string:search>', methods = ['GET']) 
+@application.route('/ner/<string:search>', methods = ['GET']) 
 @token_required
 def ner(search): 
     try:
@@ -189,11 +189,11 @@ def ner(search):
     return ner
 
 if __name__ == '__main__': 
-    app.run(debug = True) 
+    application.run(debug = True) 
 
 ```
 
-# Streamlit.py (Interface, accessing API using Streamlit)
+# streamlit.py (Interface, accessing API using Streamlit)
 
 ```python
 import streamlit as st
