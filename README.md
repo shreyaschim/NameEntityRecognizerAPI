@@ -87,7 +87,7 @@ def ner(search):
 
     try:
         article = wiki.summary(search)
-        model = spacy.load("en_core_web_md")
+        model = spacy.load("en_core_web_sm")
         results = model(article)
         labels = []
         for element in results.ents:
@@ -169,7 +169,7 @@ def login():
 def ner(search): 
     try:
         article = wiki.summary(search)
-        model = spacy.load("en_core_web_md")
+        model = spacy.load("en_core_web_sm")
         results = model(article)
         labels = []
         for element in results.ents:
