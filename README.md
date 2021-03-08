@@ -20,29 +20,34 @@ Python3, Flask, Streamlit
 
 
 ## import necessary libraries 
+```python
 from flask import Flask, jsonify, request, make_response,redirect
 import jwt
 import datetime as dt
 import wikipedia as wiki
 import spacy
 import pandas as pd
-from  functools import wraps
-  
+from  functools import wraps 
+```
 ## creating a Flask app 
+```python
 app = Flask(__name__) 
-
+```
 ## Secret key decleration for Token Based Authentication  
+```python
 app.config['SECRET_KEY'] = 'thisissecretkey' 
+```
 
-
-def get_html(html: str):
-    """Convert HTML so it can be rendered."""
+## Convert HTML so it can be rendered :
+```python
+def get_html(html: str):  
     WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
     # Newlines seem to mess with the rendering
     html = html.replace("\n", " ")
     return WRAPPER.format(html)
-
+```
 ## Function for generating token using HS256 algorithm  
+```python
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -55,29 +60,28 @@ def token_required(f):
             return jsonify({'message':'Token is invalid!','token':data}), 403
         return f(*args, **kwargs)
     return decorated
-
- 
+```
+#### Home Route
+```python    
 @app.route('/', methods = ['GET', 'POST']) 
 def home(): 
     if(request.method == 'GET'): 
-  
         data = "Welcome To NER API By: Shreyas Chim"
         return jsonify({'data': data}) 
-  
+```  
 ## Login function, Username:"username", Password:"password" for now. 
-
+```python
 @app.route('/login') 
 def login():
     auth = request.authorization 
     if auth and auth.username == 'username' and auth.password == 'password':
         token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, app.config['SECRET_KEY'])
-
         return  jsonify({'token' : token})
-
     return make_response('Could not verify!', 401, {'www-Authenticate': 'Basic real = "Login Required"'})
-    
+```    
 
 ## Name Entity Recognizer Model 
+```python
 @app.route('/ner/<string:search>', methods = ['GET']) 
 @token_required
 def ner(search): 
@@ -86,57 +90,55 @@ def ner(search):
         article = wiki.summary(search)
         model = spacy.load("en_core_web_md")
         results = model(article)
-
-
         labels = []
         for element in results.ents:
             labels.append(element.label_)
-
         data = []
         for i in set(labels):
             data.append([labels.count(i),str(i)])
-    
         df = pd.DataFrame(data,columns=('Occurance','Labels'))
         df = df.rename(columns={'Labels':'index'}).set_index('index')
         df = df.to_json()
-
         html = spacy.displacy.render(results, style="ent")
         style = "<style> { display: inline-block }</style>"
         page = f"{style}{get_html(html)}"
-
         return jsonify({'link': page, 'data' : df, 'status': "success", 'message': "Article processed!"}) 
-
     except:
         return jsonify({'status': "failed",'message': "Article not found!"}) 
-    
     return ner
+```
   
 ## Driver function 
+
+```python
 if __name__ == '__main__': 
   
     app.run(debug = True) 
-    
-    
+    ```
  
 
 # Streamlit.py (Interface, accessing API using Streamlit)
 
+```python
 import streamlit as st
 import requests
 import json
+```
 
 ## Generating API Request 
 
+```python
 def ner_api(search):
     r = requests.get("http://127.0.0.1:5000/login",auth=('username','password'))
     rj = r.json()
     token = rj['token']
     url = f"http://127.0.0.1:5000/ner/{search}?token={token}"
     ner = requests.get(url)
-
     return ner
-    
+ ```   
 ## Building App 
+
+```python
 if __name__ == '__main__':
 
     st.title("Wikipedia API to perform NER")
@@ -160,6 +162,7 @@ if __name__ == '__main__':
     
     st.text(f"NLP Assignment by- Shreyas R. Chim")
 
+``` 
 #Application Screenshots
 
 ![Screenshot from 2021-03-07 17-42-01](https://user-images.githubusercontent.com/33173746/110239481-18d97780-7f6d-11eb-8719-160f6a13b97e.png)
