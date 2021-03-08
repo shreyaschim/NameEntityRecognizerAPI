@@ -205,12 +205,11 @@ import json
 
 ```python
 def ner_api(search):
-    r = requests.get("http://127.0.0.1:5000/login",auth=('username','password'))
+    r = requests.get("http://nerflaskapi-env.eba-qbyevvcg.ap-south-1.elasticbeanstalk.com/login",auth=('username','password'))
     rj = r.json()
     token = rj['token']
-    url = f"http://127.0.0.1:5000/ner/{search}?token={token}"
+    url = f"http://nerflaskapi-env.eba-qbyevvcg.ap-south-1.elasticbeanstalk.com/ner/{search}?token={token}"
     ner = requests.get(url)
-    return ner
  ```   
 #### Building App 
 
@@ -247,10 +246,10 @@ import requests
 import json
 
 def ner_api(search):
-    r = requests.get("http://127.0.0.1:5000/login",auth=('username','password'))
+    r = requests.get("http://nerflaskapi-env.eba-qbyevvcg.ap-south-1.elasticbeanstalk.com/login",auth=('username','password'))
     rj = r.json()
     token = rj['token']
-    url = f"http://127.0.0.1:5000/ner/{search}?token={token}"
+    url = f"http://nerflaskapi-env.eba-qbyevvcg.ap-south-1.elasticbeanstalk.com/ner/{search}?token={token}"
     ner = requests.get(url)
 
     return ner
