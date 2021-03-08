@@ -62,9 +62,10 @@ def ner(search):
     try:
         article = wiki.summary(search)
         model = spacy.load('en_core_web_sm')
-        results = model(article)
-
-
+        doc = model(article) 
+        doc=[token for token in doc if not token.is_stop and not token.is_punct]
+        doc = ' '.join([str(ele) for ele in doc])
+        results = model(doc)
         labels = []
         for element in results.ents:
             labels.append(element.label_)
