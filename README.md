@@ -2,6 +2,8 @@
 # NameEntityRecognizerAPI
 Name entity recognizer API in Flask and streamlin
 
+<a href="http://nerflaskapi-env.eba-qbyevvcg.ap-south-1.elasticbeanstalk.com/" title="API Endpoint">API Endpoint</a>
+
 ## Requirements :- 
 Python3, Flask, JWT, Streamlit etc.
 
