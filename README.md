@@ -18,7 +18,7 @@ Python3, Flask, Streamlit
 
 # App.py (NER API using flask) 
 
-#### import necessary libraries 
+#### Import necessary libraries 
 ```python
 from flask import Flask, jsonify, request, make_response,redirect
 import jwt
@@ -28,7 +28,7 @@ import spacy
 import pandas as pd
 from  functools import wraps 
 ```
-#### creating a Flask app 
+#### Creating a Flask app 
 ```python
 app = Flask(__name__) 
 ```
