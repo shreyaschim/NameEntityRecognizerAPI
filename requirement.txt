@@ -1,6 +1,10 @@
+click==7.1.2
 Flask==1.1.2
-wikipedia==1.4.0
+itsdangerous==1.1.0
+Jinja2==2.11.3
+MarkupSafe==1.1.1
+pandas==1.2.3
 PyJWT==2.0.1
 spacy==3.0.3
-streamlit==0.77.0
-pandas==1.2.3
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
+wikipedia==1.4.0
