@@ -287,10 +287,10 @@ if __name__ == '__main__':
    ```
    
 # Application Screenshots
-![Screenshot from 2021-03-07 17-42-01](https://user-images.githubusercontent.com/33173746/110239481-18d97780-7f6d-11eb-8719-160f6a13b97e.png)
-![Screenshot from 2021-03-07 17-42-06](https://user-images.githubusercontent.com/33173746/110239487-1d059500-7f6d-11eb-9ebe-ae0ab9e42e11.png)
-![Screenshot from 2021-03-07 17-41-06](https://user-images.githubusercontent.com/33173746/110239492-2262df80-7f6d-11eb-9dd4-3d6f850bea29.png)
-![Screenshot from 2021-03-07 17-41-11](https://user-images.githubusercontent.com/33173746/110239496-242ca300-7f6d-11eb-890c-b65c72061729.png)
+![Screenshot from 2021-03-08 20-29-58](https://user-images.githubusercontent.com/33173746/110338773-64635280-804d-11eb-94af-291ed49345ae.png)
+![Screenshot from 2021-03-08 20-30-06](https://user-images.githubusercontent.com/33173746/110338788-69c09d00-804d-11eb-949f-61206f124bdc.png)
+![Screenshot from 2021-03-08 20-31-08](https://user-images.githubusercontent.com/33173746/110338797-6cbb8d80-804d-11eb-9b62-83a873940c64.png)
+![Screenshot from 2021-03-08 20-31-14](https://user-images.githubusercontent.com/33173746/110338801-6e855100-804d-11eb-86e3-80bc020381ec.png)
 
  # References
  1) https://streamlit.io/
