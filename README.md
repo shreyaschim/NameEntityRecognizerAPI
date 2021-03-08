@@ -83,7 +83,7 @@ def login():
     return make_response('Could not verify!', 401, {'www-Authenticate': 'Basic real = "Login Required"'})
 ```    
 
-#### Name Entity Recognizer Model 
+#### Text pre-processing and Named Entity Recognition 
 ```python
 @application.route('/ner/<string:search>', methods = ['GET']) 
 @token_required
@@ -91,8 +91,11 @@ def ner(search):
 
     try:
         article = wiki.summary(search)
-        model = spacy.load("en_core_web_sm")
-        results = model(article)
+        model = spacy.load('en_core_web_sm')
+        doc = model(article) 
+        doc=[token for token in doc if not token.is_stop and not token.is_punct]
+        doc = ' '.join([str(ele) for ele in doc])
+        results = model(doc)
         labels = []
         for element in results.ents:
             labels.append(element.label_)
@@ -173,8 +176,11 @@ def login():
 def ner(search): 
     try:
         article = wiki.summary(search)
-        model = spacy.load("en_core_web_sm")
-        results = model(article)
+        model = spacy.load('en_core_web_sm')
+        doc = model(article) 
+        doc=[token for token in doc if not token.is_stop and not token.is_punct]
+        doc = ' '.join([str(ele) for ele in doc])
+        results = model(doc)
         labels = []
         for element in results.ents:
             labels.append(element.label_)
