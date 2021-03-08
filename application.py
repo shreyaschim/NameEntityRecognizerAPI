@@ -1,4 +1,3 @@
-
 # Using flask to make an api 
 # import necessary libraries and functions 
 from flask import Flask, jsonify, request, make_response,redirect
@@ -8,10 +7,11 @@ import wikipedia as wiki
 import spacy
 import pandas as pd
 from  functools import wraps
-  
+
 # creating a Flask app 
-app = Flask(__name__) 
-app.config['SECRET_KEY'] = 'thisissecretkey' 
+application = Flask(__name__) 
+
+application.config['SECRET_KEY'] = 'thisissecretkey' 
 
 
 def get_html(html: str):
@@ -28,14 +28,14 @@ def token_required(f):
         if not token:
             return jsonify({'message':'Token is missing!'}), 403
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'],algorithms=["HS256"])
+            data = jwt.decode(token, application.config['SECRET_KEY'],algorithms=["HS256"])
         except:
             return jsonify({'message':'Token is invalid!','token':data}), 403
         return f(*args, **kwargs)
     return decorated
 
  
-@app.route('/', methods = ['GET', 'POST']) 
+@application.route('/', methods = ['GET', 'POST']) 
 def home(): 
     if(request.method == 'GET'): 
   
@@ -43,11 +43,11 @@ def home():
         return jsonify({'data': data}) 
   
 
-@app.route('/login') 
+@application.route('/login') 
 def login():
     auth = request.authorization 
     if auth and auth.username == 'username' and auth.password == 'password':
-        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'user': auth.username, 'exp': dt.datetime.utcnow() + dt.timedelta(minutes=30)}, application.config['SECRET_KEY'])
 
         return  jsonify({'token' : token})
 
@@ -55,13 +55,13 @@ def login():
     
 
 
-@app.route('/ner/<string:search>', methods = ['GET']) 
+@application.route('/ner/<string:search>', methods = ['GET']) 
 @token_required
 def ner(search): 
 
     try:
         article = wiki.summary(search)
-        model = spacy.load("en_core_web_md")
+        model = spacy.load('en_core_web_sm')
         results = model(article)
 
 
@@ -92,4 +92,4 @@ def ner(search):
 # driver function 
 if __name__ == '__main__': 
   
-    app.run(debug = True) 
+    application.run(debug = True) 
